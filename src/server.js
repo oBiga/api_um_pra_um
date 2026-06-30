@@ -16,6 +16,20 @@ app.get("/usuarios", async (req, res) => {
     }
 })
 
+app.POST("/usuarios", async(req, res) =>{
+    const {email, senha, bio, fotoUrl} = req.body;
+    const novoUsuario = await prisma.usuario.create({
+        data: {
+            email,
+            senha,
+            perfil: {
+                create: {bio, fotoUrl}
+            }
+        },
+        include: {perfil: true}
+        })
+})
+
 app.listen(PORT, () =>{
     console.log("API Capirotesca Rodando")
 })
